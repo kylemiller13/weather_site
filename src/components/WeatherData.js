@@ -4,6 +4,7 @@ import { UilTemperatureThreeQuarter,
   UilWind, 
   UilTear 
 } from '@iconscout/react-unicons';
+import { CardContent } from '@mui/material';
 
 
 
@@ -25,7 +26,7 @@ function WeatherData() {
 
   const newYorkURL = `https://api.openweathermap.org/data/2.5/weather?q=New York&units=imperial&appid=${process.env.REACT_APP_API_KEY}`
 
-  const fiveDay = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&exclude={minutely}&units=imperial&appid=${process.env.REACT_APP_API_KEY}`
+  const fiveDay = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&units=imperial&appid=${process.env.REACT_APP_API_KEY}`
 
   // const searchLocation = (event) => {
   //   if (event.key === 'Enter') {
@@ -115,9 +116,47 @@ function WeatherData() {
               </div>
             </div>
             <div className="middle">
-              {futureData.list ? <p>{new Date(futureData.list[0].dt * 1000).toDateString()}</p> : null}
-              {futureData.list ? <img src={`http://openweathermap.org/img/wn/${futureData.list[0].weather[0].icon}.png`}/> : null}
-              {futureData.list ? <p>{futureData.list[0].main.temp.toFixed()}°F</p> : null}
+              <div className="card1">
+                <CardContent>
+                  {futureData.list ? <p>{new Date(futureData.list[0].dt * 1000).toUTCString().slice(0,12)}</p> : null}
+                    {futureData.list ? <p>{new Date(futureData.list[0].dt * 1000).toLocaleString().slice(10)}</p> : null}
+                    {futureData.list ? <img src={`http://openweathermap.org/img/wn/${futureData.list[0].weather[0].icon}.png`} alt="OpenWeather icons"/> : null}
+                    {futureData.list ? <p>{futureData.list[1].main.temp.toFixed()}°F</p> : null}
+                </CardContent>
+              </div>
+              <div className="card2">
+              <CardContent>
+                {futureData.list ? <p>{new Date(futureData.list[1].dt * 1000).toUTCString().slice(0,12)}</p> : null}
+                  {futureData.list ? <p>{new Date(futureData.list[1].dt * 1000).toLocaleString().slice(10)}</p> : null}
+                  {futureData.list ? <img src={`http://openweathermap.org/img/wn/${futureData.list[1].weather[0].icon}.png`} alt="OpenWeather icons"/> : null}
+                  {futureData.list ? <p>{futureData.list[1].main.temp.toFixed()}°F</p> : null}
+              </CardContent>
+              </div>
+              <div className="card3">
+              <CardContent>
+                {futureData.list ? <p>{new Date(futureData.list[2].dt * 1000).toUTCString().slice(0,12)}</p> : null}
+                  {futureData.list ? <p>{new Date(futureData.list[2].dt * 1000).toLocaleString().slice(10)}</p> : null}
+                  {futureData.list ? <img src={`http://openweathermap.org/img/wn/${futureData.list[2].weather[0].icon}.png`} alt="OpenWeather icons"/> : null}
+                  {futureData.list ? <p>{futureData.list[1].main.temp.toFixed()}°F</p> : null}
+              </CardContent>
+              </div>
+              <div className="card4">
+              <CardContent>
+                {futureData.list ? <p>{new Date(futureData.list[3].dt * 1000).toUTCString().slice(0,12)}</p> : null}
+                  {futureData.list ? <p>{new Date(futureData.list[3].dt * 1000).toLocaleString().slice(10)}</p> : null}
+                  {futureData.list ? <img src={`http://openweathermap.org/img/wn/${futureData.list[3].weather[0].icon}.png`} alt="OpenWeather icons"/> : null}
+                  {futureData.list ? <p>{futureData.list[1].main.temp.toFixed()}°F</p> : null}
+              </CardContent>
+              </div>
+              <div className="card5">
+              <CardContent>
+                {futureData.list ? <p>{new Date(futureData.list[4].dt * 1000).toUTCString().slice(0,12)}</p> : null}
+                  {futureData.list ? <p>{new Date(futureData.list[4].dt * 1000).toLocaleString().slice(10)}</p> : null}
+                  {futureData.list ? <img src={`http://openweathermap.org/img/wn/${futureData.list[4].weather[0].icon}.png`} alt="OpenWeather icons"/> : null}
+                  {futureData.list ? <p>{futureData.list[1].main.temp.toFixed()}°F</p> : null}
+              </CardContent>
+              </div>
+          
             </div>
             <div className="bottom">
               <div className="humidity" >
@@ -134,11 +173,10 @@ function WeatherData() {
               </div>
             </div>
           </div>
+          
       </div>
       </React.Fragment>
     );
 }
 
 export default WeatherData;
-
-
