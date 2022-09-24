@@ -28,15 +28,6 @@ function WeatherData() {
 
   const fiveDay = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&units=imperial&appid=${process.env.REACT_APP_API_KEY}`
 
-  // const searchLocation = (event) => {
-  //   if (event.key === 'Enter') {
-  //     axios.get(url).then((response) => {
-  //       setData(response.data)
-  //       console.log(response.data)
-  //     })
-  //     setLocation('')
-  //   }
-  // }
 
   const searchLocation = (event) => {
     if (event.key === 'Enter') {
@@ -46,34 +37,49 @@ function WeatherData() {
         setData(responses[0].data)
         setFutureData(responses[1].data)
 
-        console.log(responses[0].data, responses[1].data)
+        
       }))
       setLocation('')
     }
   }
   const londonClick = () => {
-    axios.get(londonURL).then((response) => {
-      setData(response.data)
-    })
+    const requestLondon = axios.get(londonURL);
+    const requestTwo = axios.get(fiveDay);
+      axios.all([requestLondon, requestTwo]).then(axios.spread((...responses) => {
+        setData(responses[0].data)
+        setFutureData(responses[1].data)
+
+      }))
       setLocation('London')
   }
   const tokyoClick = () => {
-    axios.get(tokyoURL).then((response) => {
-      setData(response.data)
-    })
+    const requestTokyo = axios.get(tokyoURL);
+    const requestTwo = axios.get(fiveDay);
+      axios.all([requestTokyo, requestTwo]).then(axios.spread((...responses) => {
+        setData(responses[0].data)
+        setFutureData(responses[1].data)
+
+    }))
       setLocation('Tokyo')
   }
   const losAngelesClick = () => {
-    axios.get(losAngelesURL).then((response) => {
-      setData(response.data)
-    })
+    const requestLosAngeles = axios.get(losAngelesURL);
+    const requestTwo = axios.get(fiveDay);
+      axios.all([requestLosAngeles, requestTwo]).then(axios.spread((...responses) => {
+        setData(responses[0].data)
+        setFutureData(responses[1].data)
+        console.log(responses[0].data, responses[1].data)
+    }))
       setLocation('Los Angeles')
   }
 
   const newYorkClick = () => {
-    axios.get(newYorkURL).then((response) => {
-      setData(response.data)
-    })
+    const requestNewYork = axios.get(newYorkURL);
+    const requestTwo = axios.get(fiveDay);
+      axios.all([requestNewYork, requestTwo]).then(axios.spread((...responses) => {
+        setData(responses[0].data)
+        setFutureData(responses[1].data)
+    }))
       setLocation('New York')
   }
   
@@ -121,7 +127,7 @@ function WeatherData() {
                   {futureData.list ? <p>{new Date(futureData.list[0].dt * 1000).toUTCString().slice(0,12)}</p> : null}
                     {futureData.list ? <p>{new Date(futureData.list[0].dt * 1000).toLocaleString().slice(10)}</p> : null}
                     {futureData.list ? <img src={`http://openweathermap.org/img/wn/${futureData.list[0].weather[0].icon}.png`} alt="OpenWeather icons"/> : null}
-                    {futureData.list ? <p>{futureData.list[1].main.temp.toFixed()}°F</p> : null}
+                    {futureData.list ? <p>{futureData.list[0].main.temp.toFixed()}°F</p> : null}
                 </CardContent>
               </div>
               <div className="card2">
@@ -134,29 +140,28 @@ function WeatherData() {
               </div>
               <div className="card3">
               <CardContent>
-                {futureData.list ? <p>{new Date(futureData.list[2].dt * 1000).toUTCString().slice(0,12)}</p> : null}
-                  {futureData.list ? <p>{new Date(futureData.list[2].dt * 1000).toLocaleString().slice(10)}</p> : null}
-                  {futureData.list ? <img src={`http://openweathermap.org/img/wn/${futureData.list[2].weather[0].icon}.png`} alt="OpenWeather icons"/> : null}
-                  {futureData.list ? <p>{futureData.list[1].main.temp.toFixed()}°F</p> : null}
+                {futureData.list ? <p>{new Date(futureData.list[10].dt * 1000).toUTCString().slice(0,12)}</p> : null}
+                  {futureData.list ? <p>{new Date(futureData.list[10].dt * 1000).toLocaleString().slice(10)}</p> : null}
+                  {futureData.list ? <img src={`http://openweathermap.org/img/wn/${futureData.list[10].weather[0].icon}.png`} alt="OpenWeather icons"/> : null}
+                  {futureData.list ? <p>{futureData.list[9].main.temp.toFixed()}°F</p> : null}
               </CardContent>
               </div>
               <div className="card4">
               <CardContent>
-                {futureData.list ? <p>{new Date(futureData.list[3].dt * 1000).toUTCString().slice(0,12)}</p> : null}
-                  {futureData.list ? <p>{new Date(futureData.list[3].dt * 1000).toLocaleString().slice(10)}</p> : null}
-                  {futureData.list ? <img src={`http://openweathermap.org/img/wn/${futureData.list[3].weather[0].icon}.png`} alt="OpenWeather icons"/> : null}
-                  {futureData.list ? <p>{futureData.list[1].main.temp.toFixed()}°F</p> : null}
+                {futureData.list ? <p>{new Date(futureData.list[11].dt * 1000).toUTCString().slice(0,12)}</p> : null}
+                  {futureData.list ? <p>{new Date(futureData.list[11].dt * 1000).toLocaleString().slice(10)}</p> : null}
+                  {futureData.list ? <img src={`http://openweathermap.org/img/wn/${futureData.list[11].weather[0].icon}.png`} alt="OpenWeather icons"/> : null}
+                  {futureData.list ? <p>{futureData.list[3].main.temp.toFixed()}°F</p> : null}
               </CardContent>
               </div>
               <div className="card5">
               <CardContent>
-                {futureData.list ? <p>{new Date(futureData.list[4].dt * 1000).toUTCString().slice(0,12)}</p> : null}
-                  {futureData.list ? <p>{new Date(futureData.list[4].dt * 1000).toLocaleString().slice(10)}</p> : null}
-                  {futureData.list ? <img src={`http://openweathermap.org/img/wn/${futureData.list[4].weather[0].icon}.png`} alt="OpenWeather icons"/> : null}
-                  {futureData.list ? <p>{futureData.list[1].main.temp.toFixed()}°F</p> : null}
+                {futureData.list ? <p>{new Date(futureData.list[12].dt * 1000).toUTCString().slice(0,12)}</p> : null}
+                  {futureData.list ? <p>{new Date(futureData.list[12].dt * 1000).toLocaleString().slice(10)}</p> : null}
+                  {futureData.list ? <img src={`http://openweathermap.org/img/wn/${futureData.list[12].weather[0].icon}.png`} alt="OpenWeather icons"/> : null}
+                  {futureData.list ? <p>{futureData.list[4].main.temp.toFixed()}°F</p> : null}
               </CardContent>
               </div>
-          
             </div>
             <div className="bottom">
               <div className="humidity" >
@@ -173,7 +178,6 @@ function WeatherData() {
               </div>
             </div>
           </div>
-          
       </div>
       </React.Fragment>
     );
