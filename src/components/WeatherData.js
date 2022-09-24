@@ -14,8 +14,6 @@ function WeatherData() {
   const [location, setLocation] = useState('');
   const [futureData, setFutureData] = useState([]);
   
-
-
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&appid=${process.env.REACT_APP_API_KEY}`
 
   const londonURL = `https://api.openweathermap.org/data/2.5/weather?q=London&units=imperial&appid=${process.env.REACT_APP_API_KEY}`
@@ -36,8 +34,6 @@ function WeatherData() {
       axios.all([requestOne, requestTwo]).then(axios.spread((...responses) => {
         setData(responses[0].data)
         setFutureData(responses[1].data)
-
-        
       }))
       setLocation('')
     }
