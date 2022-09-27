@@ -127,39 +127,53 @@ function WeatherData() {
             <div className="middle">
               <div className="card1">
                 <CardContent>
-                  {futureData.daily ? <p>{new Date(futureData.daily[1].dt * 1000).toUTCString().slice(0,12)}</p> : null}
+                  {futureData.daily ? <p className="days">{new Date(futureData.daily[1].dt * 1000).toUTCString().slice(0,7)}</p> : null}
                     {futureData.daily ? <img src={`http://openweathermap.org/img/wn/${futureData.daily[1].weather[0].icon}.png`} alt="OpenWeatherIcons"/> : null}
-                    {futureData.daily ? <p>{(futureData.daily[1].temp.day).toFixed()}°F</p> : null}
+                    {futureData.daily ? <p>{(futureData.daily[1].temp.day).toFixed()}° {(futureData.daily[1].temp.min).toFixed()}°</p> : null}
                 </CardContent>
               </div>
               <div className="card2">
               <CardContent>
-                {futureData.daily ? <p>{new Date(futureData.daily[2].dt * 1000).toUTCString().slice(0,12)}</p> : null}
+                {futureData.daily ? <p className="days">{new Date(futureData.daily[2].dt * 1000).toUTCString().slice(0,7)}</p> : null}
                   {futureData.daily ? <img src={`http://openweathermap.org/img/wn/${futureData.daily[2].weather[0].icon}.png`} alt="OpenWeather icons"/> : null}
-                  {futureData.daily ? <p>{futureData.daily[2].temp.day.toFixed()}°F</p> : null}
+                  {futureData.daily ? <p>{futureData.daily[2].temp.day.toFixed()}° {(futureData.daily[2].temp.min).toFixed()}°</p> : null}
               </CardContent>
               </div>
               <div className="card3">
               <CardContent>
-                {futureData.daily ? <p>{new Date(futureData.daily[3].dt * 1000).toUTCString().slice(0,12)}</p> : null}
+                {futureData.daily ? <p className="days">{new Date(futureData.daily[3].dt * 1000).toUTCString().slice(0,7)}</p> : null}
                   {futureData.daily ? <img src={`http://openweathermap.org/img/wn/${futureData.daily[3].weather[0].icon}.png`} alt="OpenWeather icons"/> : null}
-                  {futureData.daily ? <p>{futureData.daily[3].temp.day.toFixed()}°F</p> : null}
+                  {futureData.daily ? <p>{futureData.daily[3].temp.day.toFixed()}° {futureData.daily[3].temp.min.toFixed()}°</p> : null}
               </CardContent>
               </div>
               <div className="card4">
               <CardContent>
-                {futureData.daily ? <p>{new Date(futureData.daily[4].dt * 1000).toUTCString().slice(0,12)}</p> : null}
+                {futureData.daily ? <p className="days">{new Date(futureData.daily[4].dt * 1000).toUTCString().slice(0,7)}</p> : null}
                   {futureData.daily ? <img src={`http://openweathermap.org/img/wn/${futureData.daily[4].weather[0].icon}.png`} alt="OpenWeather icons"/> : null}
-                  {futureData.daily ? <p>{futureData.daily[4].temp.day.toFixed()}°F</p> : null}
+                  {futureData.daily ? <p>{futureData.daily[4].temp.day.toFixed()}° {futureData.daily[4].temp.min.toFixed()}°</p> : null}
               </CardContent>
               </div>
               <div className="card5">
               <CardContent>
-                {futureData.daily ? <p>{new Date(futureData.daily[5].dt * 1000).toUTCString().slice(0,12)}</p> : null}
+                {futureData.daily ? <p className="days">{new Date(futureData.daily[5].dt * 1000).toUTCString().slice(0,7)}</p> : null}
                   {futureData.daily ? <img src={`http://openweathermap.org/img/wn/${futureData.daily[5].weather[0].icon}.png`} alt="OpenWeather icons"/> : null}
-                  {futureData.daily ? <p>{futureData.daily[4].temp.day.toFixed()}°F</p> : null}
+                  {futureData.daily ? <p>{futureData.daily[5].temp.day.toFixed()}° {futureData.daily[5].temp.min.toFixed()}°</p> : null}
               </CardContent>
               </div>
+              {/* <div className="card6">
+              <CardContent>
+                {futureData.daily ? <p className="days">{new Date(futureData.daily[6].dt * 1000).toUTCString().slice(0,3)}</p> : null}
+                  {futureData.daily ? <img src={`http://openweathermap.org/img/wn/${futureData.daily[6].weather[0].icon}.png`} alt="OpenWeather icons"/> : null}
+                  {futureData.daily ? <p>{futureData.daily[6].temp.day.toFixed()}° {futureData.daily[6].temp.min.toFixed()}°</p> : null}
+              </CardContent>
+              </div>
+              <div className="card7">
+              <CardContent>
+                {futureData.daily ? <p className="days">{new Date(futureData.daily[7].dt * 1000).toUTCString().slice(0,3)}</p> : null}
+                  {futureData.daily ? <img src={`http://openweathermap.org/img/wn/${futureData.daily[7].weather[0].icon}.png`} alt="OpenWeather icons"/> : null}
+                  {futureData.daily ? <p>{futureData.daily[7].temp.day.toFixed()}° {futureData.daily[7].temp.min.toFixed()}°</p> : null}
+              </CardContent>
+              </div> */}
             </div>
             <div className="bottom">
               <div className="humidity" >
