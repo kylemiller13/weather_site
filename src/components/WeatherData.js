@@ -7,8 +7,6 @@ import { UilTemperatureThreeQuarter,
 import { CardContent } from '@mui/material';
 
 
-
-
 function WeatherData() {
   const [data, setData] = useState({"coord":{lon:0,lat:0}});
   const [location, setLocation] = useState('');
@@ -23,10 +21,6 @@ function WeatherData() {
   const losAngelesURL = `https://api.openweathermap.org/data/2.5/weather?q=Los Angeles&units=imperial&appid=${process.env.REACT_APP_API_KEY}`
 
   const newYorkURL = `https://api.openweathermap.org/data/2.5/weather?q=New York&units=imperial&appid=${process.env.REACT_APP_API_KEY}`
-
-  const fiveDay = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&units=imperial&appid=${process.env.REACT_APP_API_KEY}`
-
-  // const oneCall = `https://api.openweathermap.org/data/2.5/onecall?lat=${data.coord.lat}&lon=${data.coord.lon}&exclude=hourly,minutely&units=imperial&appid=${process.env.REACT_APP_API_KEY}`
 
   const oneCall = function(lat, lon){
     return `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=hourly,minutely&units=imperial&appid=${process.env.REACT_APP_API_KEY}`
@@ -44,44 +38,46 @@ function WeatherData() {
       setLocation('')
     }
   }
+  
   console.log(futureData)
   const londonClick = () => {
-    const requestLondon = axios.get(londonURL);
-    const requestTwo = axios.get(fiveDay);
-      axios.all([requestLondon, requestTwo]).then(axios.spread((...responses) => {
+    const requestOne = axios.get(londonURL);
+      axios.all([requestOne]).then(axios.spread((...responses) => {
         setData(responses[0].data)
-        setFutureData(responses[1].data)
-
+        axios.all([axios.get(oneCall(responses[0].data.coord.lat,responses[0].data.coord.lon))]).then(axios.spread((...responses) => {
+          setFutureData(responses[0].data)
       }))
+    }))
       setLocation('London')
   }
   const tokyoClick = () => {
-    const requestTokyo = axios.get(tokyoURL);
-    const requestTwo = axios.get(fiveDay);
-      axios.all([requestTokyo, requestTwo]).then(axios.spread((...responses) => {
+    const requestOne = axios.get(tokyoURL);
+      axios.all([requestOne]).then(axios.spread((...responses) => {
         setData(responses[0].data)
-        setFutureData(responses[1].data)
-
+        axios.all([axios.get(oneCall(responses[0].data.coord.lat,responses[0].data.coord.lon))]).then(axios.spread((...responses) => {
+          setFutureData(responses[0].data)
+      }))
     }))
       setLocation('Tokyo')
   }
   const losAngelesClick = () => {
-    const requestLosAngeles = axios.get(losAngelesURL);
-    const requestTwo = axios.get(fiveDay);
-      axios.all([requestLosAngeles, requestTwo]).then(axios.spread((...responses) => {
+    const requestOne = axios.get(losAngelesURL);
+      axios.all([requestOne]).then(axios.spread((...responses) => {
         setData(responses[0].data)
-        setFutureData(responses[1].data)
-        console.log(responses[0].data, responses[1].data)
+        axios.all([axios.get(oneCall(responses[0].data.coord.lat,responses[0].data.coord.lon))]).then(axios.spread((...responses) => {
+          setFutureData(responses[0].data)
+      }))
     }))
       setLocation('Los Angeles')
   }
 
   const newYorkClick = () => {
-    const requestNewYork = axios.get(newYorkURL);
-    const requestTwo = axios.get(fiveDay);
-      axios.all([requestNewYork, requestTwo]).then(axios.spread((...responses) => {
+    const requestOne = axios.get(newYorkURL);
+      axios.all([requestOne]).then(axios.spread((...responses) => {
         setData(responses[0].data)
-        setFutureData(responses[1].data)
+        axios.all([axios.get(oneCall(responses[0].data.coord.lat,responses[0].data.coord.lon))]).then(axios.spread((...responses) => {
+          setFutureData(responses[0].data)
+      }))
     }))
       setLocation('New York')
   }
