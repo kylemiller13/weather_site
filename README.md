@@ -2,7 +2,7 @@
 
 #### By Kyle Miller
 
-#### A website which a user can choose a selected location or enter in a desired place to display the weather of that location, the current degrees, description of the forcast, and the future cast in a 4 hour cycle.
+#### A website which a user can choose a selected location or enter in a desired place to display a description of the forcast and a 6 day future forecast.
 
 ## Technologies Used
 
