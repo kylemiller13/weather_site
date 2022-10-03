@@ -7,6 +7,8 @@ import { UilTemperatureThreeQuarter,
 import { CardContent } from '@mui/material';
 
 
+
+
 function WeatherData() {
   const [data, setData] = useState({"coord":{lon:0,lat:0}});
   const [location, setLocation] = useState('');
@@ -24,7 +26,7 @@ function WeatherData() {
 
   const oneCall = function(lat, lon){
     return `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=hourly,minutely&units=imperial&appid=${process.env.REACT_APP_API_KEY}`
-  }
+  };
 
   const searchLocation = (event) => {
     if (event.key === 'Enter') {
@@ -37,7 +39,7 @@ function WeatherData() {
     }))
       setLocation('')
     }
-  }
+  };
   
   console.log(futureData)
   const londonClick = () => {
@@ -49,7 +51,7 @@ function WeatherData() {
       }))
     }))
       setLocation('London')
-  }
+  };
   const tokyoClick = () => {
     const requestOne = axios.get(tokyoURL);
       axios.all([requestOne]).then(axios.spread((...responses) => {
@@ -59,7 +61,7 @@ function WeatherData() {
       }))
     }))
       setLocation('Tokyo')
-  }
+  };
   const losAngelesClick = () => {
     const requestOne = axios.get(losAngelesURL);
       axios.all([requestOne]).then(axios.spread((...responses) => {
@@ -69,7 +71,7 @@ function WeatherData() {
       }))
     }))
       setLocation('Los Angeles')
-  }
+  };
 
   const newYorkClick = () => {
     const requestOne = axios.get(newYorkURL);
@@ -80,8 +82,7 @@ function WeatherData() {
       }))
     }))
       setLocation('New York')
-  }
-  
+  };  
     return (
       <React.Fragment>
       <div className="app">
@@ -120,13 +121,17 @@ function WeatherData() {
                 {data.weather ? <p>{data.weather[0].main}</p> : null}
               </div>
             </div>
+            
             <div className="middle">
+            
               <div className="card1">
+            
                 <CardContent>
                   {futureData.daily ? <p className="days">{new Date(futureData.daily[1].dt * 1000).toUTCString().slice(0,7)}</p> : null}
                     {futureData.daily ? <img src={`http://openweathermap.org/img/wn/${futureData.daily[1].weather[0].icon}.png`} alt="OpenWeatherIcons"/> : null}
                     {futureData.daily ? <p>{(futureData.daily[1].temp.day).toFixed()}° {(futureData.daily[1].temp.min).toFixed()}°</p> : null}
                 </CardContent>
+                
               </div>
               <div className="card2">
               <CardContent>
@@ -156,21 +161,23 @@ function WeatherData() {
                   {futureData.daily ? <p>{futureData.daily[5].temp.day.toFixed()}° {futureData.daily[5].temp.min.toFixed()}°</p> : null}
               </CardContent>
               </div>
-              {/* <div className="card6">
+              <div className="card6">
               <CardContent>
-                {futureData.daily ? <p className="days">{new Date(futureData.daily[6].dt * 1000).toUTCString().slice(0,3)}</p> : null}
+                {futureData.daily ? <p className="days">{new Date(futureData.daily[6].dt * 1000).toUTCString().slice(0,7)}</p> : null}
                   {futureData.daily ? <img src={`http://openweathermap.org/img/wn/${futureData.daily[6].weather[0].icon}.png`} alt="OpenWeather icons"/> : null}
                   {futureData.daily ? <p>{futureData.daily[6].temp.day.toFixed()}° {futureData.daily[6].temp.min.toFixed()}°</p> : null}
               </CardContent>
               </div>
               <div className="card7">
               <CardContent>
-                {futureData.daily ? <p className="days">{new Date(futureData.daily[7].dt * 1000).toUTCString().slice(0,3)}</p> : null}
+                {futureData.daily ? <p className="days">{new Date(futureData.daily[7].dt * 1000).toUTCString().slice(0,7)}</p> : null}
                   {futureData.daily ? <img src={`http://openweathermap.org/img/wn/${futureData.daily[7].weather[0].icon}.png`} alt="OpenWeather icons"/> : null}
                   {futureData.daily ? <p>{futureData.daily[7].temp.day.toFixed()}° {futureData.daily[7].temp.min.toFixed()}°</p> : null}
               </CardContent>
-              </div> */}
+              </div>
             </div>
+            
+            
             <div className="bottom">
               <div className="humidity" >
               {data.main ? <p className='bold'><UilTear size="20"/>{data.main.humidity}%</p> : null}
