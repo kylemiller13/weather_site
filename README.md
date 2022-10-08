@@ -2,7 +2,7 @@
 
 #### By Kyle Miller
 
-#### A website in which a user can choose a selected location or enter in the desired place to display a description of the forecast and a 6-day future forecast.
+#### A website in which a user can choose a selected location or enter in the desired place to display a description of the forecast and a 7-day future forecast.
 
 ## Technologies Used
 
