@@ -4,7 +4,9 @@ import { UilTemperatureThreeQuarter,
   UilWind, 
   UilTear 
 } from '@iconscout/react-unicons';
-import { CardContent } from '@mui/material';
+import { CardContent, Grid } from '@mui/material';
+
+
 
 
 
@@ -86,6 +88,7 @@ function WeatherData() {
       }))
     }))
       setLocation('New York')
+
   };  
     return (
       <React.Fragment>
@@ -127,61 +130,22 @@ function WeatherData() {
               </div>
             </div>
             
-            <div className="middle">
-            
-              <div className="card1">
-            
-                <CardContent>
-                  {/*ternary operator, new creates an instance of an object, Date is a constructor */}
-                  {futureData.daily ? <p className="days">{new Date(futureData.daily[1].dt * 1000).toUTCString().slice(0,7)}</p> : null}
-                    {futureData.daily ? <img src={`http://openweathermap.org/img/wn/${futureData.daily[1].weather[0].icon}.png`} alt="OpenWeatherIcons"/> : null}
-                    {futureData.daily ? <p>{(futureData.daily[1].temp.day).toFixed()}° {(futureData.daily[1].temp.min).toFixed()}°</p> : null}
-                </CardContent>
-                
-              </div>
-              <div className="card1">
-              <CardContent>
-                {futureData.daily ? <p className="days">{new Date(futureData.daily[2].dt * 1000).toUTCString().slice(0,7)}</p> : null}
-                  {futureData.daily ? <img src={`http://openweathermap.org/img/wn/${futureData.daily[2].weather[0].icon}.png`} alt="OpenWeather icons"/> : null}
-                  {futureData.daily ? <p>{futureData.daily[2].temp.day.toFixed()}° {(futureData.daily[2].temp.min).toFixed()}°</p> : null}
-              </CardContent>
-              </div>
-              <div className="card1">
-              <CardContent>
-                {futureData.daily ? <p className="days">{new Date(futureData.daily[3].dt * 1000).toUTCString().slice(0,7)}</p> : null}
-                  {futureData.daily ? <img src={`http://openweathermap.org/img/wn/${futureData.daily[3].weather[0].icon}.png`} alt="OpenWeather icons"/> : null}
-                  {futureData.daily ? <p>{futureData.daily[3].temp.day.toFixed()}° {futureData.daily[3].temp.min.toFixed()}°</p> : null}
-              </CardContent>
-              </div>
-              <div className="card1">
-              <CardContent>
-                {futureData.daily ? <p className="days">{new Date(futureData.daily[4].dt * 1000).toUTCString().slice(0,7)}</p> : null}
-                  {futureData.daily ? <img src={`http://openweathermap.org/img/wn/${futureData.daily[4].weather[0].icon}.png`} alt="OpenWeather icons"/> : null}
-                  {futureData.daily ? <p>{futureData.daily[4].temp.day.toFixed()}° {futureData.daily[4].temp.min.toFixed()}°</p> : null}
-              </CardContent>
-              </div>
-              <div className="card1">
-              <CardContent>
-                {futureData.daily ? <p className="days">{new Date(futureData.daily[5].dt * 1000).toUTCString().slice(0,7)}</p> : null}
-                  {futureData.daily ? <img src={`http://openweathermap.org/img/wn/${futureData.daily[5].weather[0].icon}.png`} alt="OpenWeather icons"/> : null}
-                  {futureData.daily ? <p>{futureData.daily[5].temp.day.toFixed()}° {futureData.daily[5].temp.min.toFixed()}°</p> : null}
-              </CardContent>
-              </div>
-              <div className="card1">
-              <CardContent>
-                {futureData.daily ? <p className="days">{new Date(futureData.daily[6].dt * 1000).toUTCString().slice(0,7)}</p> : null}
-                  {futureData.daily ? <img src={`http://openweathermap.org/img/wn/${futureData.daily[6].weather[0].icon}.png`} alt="OpenWeather icons"/> : null}
-                  {futureData.daily ? <p>{futureData.daily[6].temp.day.toFixed()}° {futureData.daily[6].temp.min.toFixed()}°</p> : null}
-              </CardContent>
-              </div>
-              <div className="card1">
-              <CardContent>
-                {futureData.daily ? <p className="days">{new Date(futureData.daily[7].dt * 1000).toUTCString().slice(0,7)}</p> : null}
-                  {futureData.daily ? <img src={`http://openweathermap.org/img/wn/${futureData.daily[7].weather[0].icon}.png`} alt="OpenWeather icons"/> : null}
-                  {futureData.daily ? <p>{futureData.daily[7].temp.day.toFixed()}° {futureData.daily[7].temp.min.toFixed()}°</p> : null}
-              </CardContent>
-              </div>
-            </div>
+            <Grid container direction="row" justify="space-between" alignItems="center" >
+              {futureData.daily ? (
+                // Map over the array of daily forecast objects and access the day time(dt), icon, & temperature propertys
+                futureData.daily.map(day => 
+                  <Grid item>
+                    <div className="card1">
+                      <CardContent>
+                        <p>{new Date(day.dt * 1000).toUTCString().slice(0,7)}</p>
+                        <img src={`http://openweathermap.org/img/wn/${day.weather[0].icon}.png`} alt="OpenWeatherIcons"/>
+                        <p>{(day.temp.day).toFixed()}° {(day.temp.min).toFixed()}°</p> 
+                      </CardContent>
+                    </div>
+                  </Grid>
+                )
+              ) : null}
+            </Grid>
             
             
             <div className="bottom">
