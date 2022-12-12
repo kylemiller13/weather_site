@@ -8,9 +8,6 @@ import { CardContent, Grid } from '@mui/material';
 
 
 
-
-
-
 function WeatherData() {
   // used useState to declare a state variable(data, location, futureData)  
   const [data, setData] = useState({"coord":{lon:0,lat:0}});
