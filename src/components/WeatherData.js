@@ -6,16 +6,18 @@ import { UilTemperatureThreeQuarter,
 } from '@iconscout/react-unicons';
 import { CardContent, Grid } from '@mui/material';
 import Card from '@material-ui/core/Card';
+import {AppBar, Toolbar, Button, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
   card: {
-    // styles for the card go here
+    // styles for the card 
     elevation: 24, // add a drop shadow
     opacity: 0.8, // make the card transparent
     transition: '0.3s', // animate the transition
-    boxShadow: '0 0 10px rgba(0,0,0,0.3)', // add a custom drop shadow
-    
+    boxShadow: '0 0 10px rgba(0,0,0,0.3)', // add a drop shadow
+    backgroundColor: 'rgba(255,255,255, 0.2)',
+    border: '1px solid #000'
   }
 });
 
@@ -106,21 +108,27 @@ function WeatherData() {
     return (
       <React.Fragment>
       <div className="app">
-        <div className="searchBTN">
-          <button type="button"
-          // calls the function londonClick
-            onClick={() => londonClick()}
-            >London</button>
-            <button type="button"
-            onClick={() => tokyoClick()}
-            >Tokyo</button>
-            <button type="button"
-            onClick={() => losAngelesClick()}
-            >Los Angeles</button>
-            <button type="button"
-            onClick={() => newYorkClick()}
-            >New York</button>
-        </div>
+        <AppBar style={{backgroundColor: 'rgba(255,255,255, 0.2)'}}>
+          <Toolbar>
+            <Typography variant="h6" style={{ flexGrow: 1 }}>
+                Kyle's Weather Data
+            </Typography>
+            <Button onClick={() => londonClick()}
+              >London</Button>
+            <Button type="button"
+                onClick={() => tokyoClick()}
+                >Tokyo
+            </Button>
+            <Button type="button"
+              onClick={() => losAngelesClick()}
+                >Los Angeles
+            </Button>
+            <Button type="button"
+              onClick={() => newYorkClick()}
+              >New York
+            </Button>
+          </Toolbar>
+        </AppBar>
         <div className="search">
           <input
             value={location}
