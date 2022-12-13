@@ -49,15 +49,6 @@ h1 {
   padding-top: 100px;
 }
 
-.app input {
-  padding: .7rem 1.5rem;
-  font-size: 1.2rem;
-  border-radius: 25px;
-  border: 1px solid rgba(255,255,255, 0.8);
-  background: rgba(255,255,255, 0.1);
-  color: #f8f8f8;
-  width: 30%;
-}
 
 ::placeholder {
   color: #f8f8f8;
@@ -96,23 +87,6 @@ h1 {
 .bold {
   font-weight: 700;
 }
-
-/* button {
-  color: #eee;
-  background-color: transparent;
-  border-radius: 25px;
-  font-size: 1rem;
-  padding: .7rem 1.5rem;
-} */
-
-/* .searchBTN{
-  padding: 1rem;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-evenly;
-  background-color: rgba(255,255,255, 0.2);
-} */
 
 img{
   width: 85px;
