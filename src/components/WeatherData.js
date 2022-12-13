@@ -3,8 +3,13 @@ import axios from 'axios';
 import { UilTemperatureThreeQuarter, UilWind, UilTear} from '@iconscout/react-unicons';
 import { CardContent, Grid } from '@mui/material';
 import Card from '@material-ui/core/Card';
-import {AppBar, Toolbar, Button, Typography } from '@material-ui/core';
+import {AppBar, Toolbar, Button, Typography, TextField} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Search from '@material-ui/icons/Search';
+
+
+
 
 const useStyles = makeStyles({
   card: {
@@ -127,13 +132,21 @@ function WeatherData() {
           </Toolbar>
         </AppBar>
         <div className="search">
-          <input
+          <TextField
+            variant="outlined"
+            type="search"
+            label="Enter Location"
             value={location}
-            onChange={event => setLocation(event.target.value)}
             onKeyPress={searchLocation}
-            placeholder='Enter Location'
-            type="text"
-            />
+            onChange={event => setLocation(event.target.value)}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Search />
+                </InputAdornment>
+              ),
+            }}
+          />
         </div>
           <div className="container">
             <div className="top">
