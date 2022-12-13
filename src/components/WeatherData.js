@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { UilTemperatureThreeQuarter, 
-  UilWind, 
-  UilTear 
-} from '@iconscout/react-unicons';
+import { UilTemperatureThreeQuarter, UilWind, UilTear} from '@iconscout/react-unicons';
 import { CardContent, Grid } from '@mui/material';
 import Card from '@material-ui/core/Card';
 import {AppBar, Toolbar, Button, Typography } from '@material-ui/core';
