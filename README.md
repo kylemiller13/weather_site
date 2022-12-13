@@ -6,7 +6,7 @@
 
 ## Technologies Used
 
-* ReactJS
+* [![React][React.js]][React-url]
 * HTML
 * CSS
 * Axios
