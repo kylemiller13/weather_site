@@ -5,10 +5,25 @@ import { UilTemperatureThreeQuarter,
   UilTear 
 } from '@iconscout/react-unicons';
 import { CardContent, Grid } from '@mui/material';
+import Card from '@material-ui/core/Card';
+import { makeStyles } from '@material-ui/core/styles';
 
+const useStyles = makeStyles({
+  card: {
+    // styles for the card go here
+    elevation: 24, // add a drop shadow
+    opacity: 0.8, // make the card transparent
+    transition: '0.3s', // animate the transition
+    boxShadow: '0 0 10px rgba(0,0,0,0.3)', // add a custom drop shadow
+    
+  }
+});
 
 
 function WeatherData() {
+  
+  const classes = useStyles();
+
   // used useState to declare a state variable(data, location, futureData)  
   const [data, setData] = useState({"coord":{lon:0,lat:0}});
   const [location, setLocation] = useState('');
@@ -85,6 +100,7 @@ function WeatherData() {
       }))
     }))
       setLocation('New York')
+    
 
   };  
     return (
@@ -132,13 +148,13 @@ function WeatherData() {
                 // Map over the array of daily forecast objects and access the day time(dt), icon, & temperature propertys
                 futureData.daily.map(day => 
                   <Grid item>
-                    <div className="card1">
+                    <Card className={classes.card}>
                       <CardContent>
                         <p>{new Date(day.dt * 1000).toUTCString().slice(0,7)}</p>
                         <img src={`http://openweathermap.org/img/wn/${day.weather[0].icon}.png`} alt="OpenWeatherIcons"/>
                         <p>{(day.temp.day).toFixed()}° {(day.temp.min).toFixed()}°</p> 
                       </CardContent>
-                    </div>
+                    </Card>
                   </Grid>
                 )
               ) : null}
