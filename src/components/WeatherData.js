@@ -37,18 +37,10 @@ function WeatherData() {
   const units = `&units=imperial`;
   const apiKey = `&appid=${process.env.REACT_APP_API_KEY}`;
 
-  // const urls = cities.map(city => `${baseURL}${city}${units}${apiKey}`);
-  
   //OpenWeatherMap API takes in a template literal called location
   const url = baseURL + `${location}`+ units + apiKey;
   //OpenWeatherMap API takes in the location London, Tokyo, Los Angeles, New York
-  const londonURL = `https://api.openweathermap.org/data/2.5/weather?q=London&units=imperial&appid=${process.env.REACT_APP_API_KEY}`
-  
-  const tokyoURL = `https://api.openweathermap.org/data/2.5/weather?q=Tokyo&units=imperial&appid=${process.env.REACT_APP_API_KEY}`
-  
-  const losAngelesURL = `https://api.openweathermap.org/data/2.5/weather?q=Los Angeles&units=imperial&appid=${process.env.REACT_APP_API_KEY}`
-  
-  const newYorkURL = `https://api.openweathermap.org/data/2.5/weather?q=New York&units=imperial&appid=${process.env.REACT_APP_API_KEY}`
+
   // created a const oneCall that = a function that takes in lat & lon parameters
   const oneCall = function(lat, lon){
     return `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=hourly,minutely&units=imperial&appid=${process.env.REACT_APP_API_KEY}`
@@ -71,15 +63,15 @@ function WeatherData() {
     }
   };
  
-  console.log(futureData)
+  // console.log(futureData)
 
   
-  const londonClick = async () => {
+  const citiesClick = async (city) => {
     let data;
     
     try {
       //makes an API call to the OpenWeatherMap API
-      const response = await axios.get(londonURL);
+      const response = await axios.get(baseURL + `${city}`+ units + apiKey);
       data = response.data;
       //if the call is successful, it sets the response data in the state data
       setData(data);
@@ -87,7 +79,7 @@ function WeatherData() {
     } catch (error) {
       console.error(error);
     }
-  
+    console.log(data);
     try {
       //makes another API call to the OpenWeatherMap API
       const futureDataResponse = await axios.get(oneCall(data.coord.lat, data.coord.lon));
@@ -98,71 +90,9 @@ function WeatherData() {
       console.error(error);
     }
     
-    setLocation('London');
-  };
-
-  const tokyoClick = async () => {
-    let data;
-    try {
-      const response = await axios.get(tokyoURL);
-      data = response.data;
-      setData(data);
-    } catch (error) {
-      console.error(error);
-    }
-  
-    try {
-      const futureDataResponse = await axios.get(oneCall(data.coord.lat, data.coord.lon));
-      setFutureData(futureDataResponse.data);
-    } catch (error) {
-      console.error(error);
-    }
-  
-    setLocation('Tokyo');
-  };
-
-
-  const losAngelesClick = async () => {
-    let data;
-    try {
-      const response = await axios.get(losAngelesURL);
-      data = response.data;
-      setData(data);
-    } catch (error) {
-      console.error(error);
-    }
-  
-    try {
-      const futureDataResponse = await axios.get(oneCall(data.coord.lat, data.coord.lon));
-      setFutureData(futureDataResponse.data);
-    } catch (error) {
-      console.error(error);
-    }
-  
-    setLocation('Los Angeles');
+    setLocation(`${city}`);
   };
   
-  const newYorkClick = async () => {
-    let data;
-    try {
-      const response = await axios.get(newYorkURL);
-      data = response.data;
-      setData(data);
-    } catch (error) {
-      console.error(error);
-    }
-  
-    try {
-      const futureDataResponse = await axios.get(oneCall(data.coord.lat, data.coord.lon));
-      setFutureData(futureDataResponse.data);
-    } catch (error) {
-      console.error(error);
-    }
-  
-    setLocation('New York');
-  };
-
-
 
     return (
       <React.Fragment>
@@ -172,20 +102,11 @@ function WeatherData() {
             <Typography variant="h6" style={{ flexGrow: 1 }}>
                 Kyle's Weather Data
             </Typography>
-            <Button onClick={() => londonClick()}
-              >London</Button>
-            <Button type="button"
-                onClick={() => tokyoClick()}
-                >Tokyo
-            </Button>
-            <Button type="button"
-              onClick={() => losAngelesClick()}
-                >Los Angeles
-            </Button>
-            <Button type="button"
-              onClick={() => newYorkClick()}
-              >New York
-            </Button>
+            {cities.map(city => (
+              <Button key={city} onClick={() => citiesClick(city)}>
+                {city}
+              </Button>
+            ))}
           </Toolbar>
         </AppBar>
         <div className="search">
