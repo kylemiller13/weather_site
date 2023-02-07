@@ -32,81 +32,138 @@ function WeatherData() {
   const [data, setData] = useState({"coord":{lon:0,lat:0}});
   const [location, setLocation] = useState('');
   const [futureData, setFutureData] = useState([]);
+  const cities = ['London', 'Tokyo', 'Los Angeles', 'New York'];
+  const baseURL = `https://api.openweathermap.org/data/2.5/weather?q=`;
+  const units = `&units=imperial`;
+  const apiKey = `&appid=${process.env.REACT_APP_API_KEY}`;
+
+  // const urls = cities.map(city => `${baseURL}${city}${units}${apiKey}`);
+  
   //OpenWeatherMap API takes in a template literal called location
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&appid=${process.env.REACT_APP_API_KEY}`
-  //OpenWeatherMap API takes in the location London
+  const url = baseURL + `${location}`+ units + apiKey;
+  //OpenWeatherMap API takes in the location London, Tokyo, Los Angeles, New York
   const londonURL = `https://api.openweathermap.org/data/2.5/weather?q=London&units=imperial&appid=${process.env.REACT_APP_API_KEY}`
-  //OpenWeatherMap API takes in the location Tokyo
+  
   const tokyoURL = `https://api.openweathermap.org/data/2.5/weather?q=Tokyo&units=imperial&appid=${process.env.REACT_APP_API_KEY}`
-  //OpenWeatherMap API takes in the location Los Angeles
+  
   const losAngelesURL = `https://api.openweathermap.org/data/2.5/weather?q=Los Angeles&units=imperial&appid=${process.env.REACT_APP_API_KEY}`
-  //OpenWeatherMap API takes in the location New York
+  
   const newYorkURL = `https://api.openweathermap.org/data/2.5/weather?q=New York&units=imperial&appid=${process.env.REACT_APP_API_KEY}`
   // created a const oneCall that = a function that takes in lat & lon parameters
   const oneCall = function(lat, lon){
     return `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=hourly,minutely&units=imperial&appid=${process.env.REACT_APP_API_KEY}`
   };
 
-  const searchLocation = (event) => {
-    // event.key is a keyboardEvent 
+
+  const searchLocation = async (event) => {
     if (event.key === 'Enter') {
-      const requestOne = axios.get(url);
-      //axios.all makes multiple HTTP requests, 
-      //axios.spread is used to spread the array of arguments into multiple arguments. used to prvent multiple ajax requests with axios.all
-      axios.all([requestOne]).then(axios.spread((...responses) => {
-        setData(responses[0].data)
-        axios.all([axios.get(oneCall(responses[0].data.coord.lat,responses[0].data.coord.lon))]).then(axios.spread((...responses) => {
-          setFutureData(responses[0].data)
-        }))
-      }))
-      setLocation('')
+      try {
+        const requestOne = await axios.get(url);
+        const requestTwo = await axios.get(oneCall(requestOne.data.coord.lat, requestOne.data.coord.lon));
+  
+        setData(requestOne.data);
+        setFutureData(requestTwo.data);
+      } catch (error) {
+        console.error(error);
+      }
+  
+      setLocation('');
     }
   };
  
   console.log(futureData)
-  const londonClick = () => {
-    const requestOne = axios.get(londonURL);
-      axios.all([requestOne]).then(axios.spread((...responses) => {
-        setData(responses[0].data)
-        axios.all([axios.get(oneCall(responses[0].data.coord.lat,responses[0].data.coord.lon))]).then(axios.spread((...responses) => {
-          setFutureData(responses[0].data)
-      }))
-    }))
-      setLocation('London')
-  };
-  const tokyoClick = () => {
-    const requestOne = axios.get(tokyoURL);
-      axios.all([requestOne]).then(axios.spread((...responses) => {
-        setData(responses[0].data)
-        axios.all([axios.get(oneCall(responses[0].data.coord.lat,responses[0].data.coord.lon))]).then(axios.spread((...responses) => {
-          setFutureData(responses[0].data)
-      }))
-    }))
-      setLocation('Tokyo')
-  };
-  const losAngelesClick = () => {
-    const requestOne = axios.get(losAngelesURL);
-      axios.all([requestOne]).then(axios.spread((...responses) => {
-        setData(responses[0].data)
-        axios.all([axios.get(oneCall(responses[0].data.coord.lat,responses[0].data.coord.lon))]).then(axios.spread((...responses) => {
-          setFutureData(responses[0].data)
-      }))
-    }))
-      setLocation('Los Angeles')
-  };
 
-  const newYorkClick = () => {
-    const requestOne = axios.get(newYorkURL);
-      axios.all([requestOne]).then(axios.spread((...responses) => {
-        setData(responses[0].data)
-        axios.all([axios.get(oneCall(responses[0].data.coord.lat,responses[0].data.coord.lon))]).then(axios.spread((...responses) => {
-          setFutureData(responses[0].data)
-      }))
-    }))
-      setLocation('New York')
+  
+  const londonClick = async () => {
+    let data;
     
+    try {
+      //makes an API call to the OpenWeatherMap API
+      const response = await axios.get(londonURL);
+      data = response.data;
+      //if the call is successful, it sets the response data in the state data
+      setData(data);
+      //If the call to the OpenWeatherMap API fails, the function logs the error to the console
+    } catch (error) {
+      console.error(error);
+    }
+  
+    try {
+      //makes another API call to the OpenWeatherMap API
+      const futureDataResponse = await axios.get(oneCall(data.coord.lat, data.coord.lon));
+      //if the call is successful, it sets the response data in the state data
+      setFutureData(futureDataResponse.data);
+      //If the call to the OpenWeatherMap API fails, the function logs the error to the console
+    } catch (error) {
+      console.error(error);
+    }
+    
+    setLocation('London');
+  };
 
-  };  
+  const tokyoClick = async () => {
+    let data;
+    try {
+      const response = await axios.get(tokyoURL);
+      data = response.data;
+      setData(data);
+    } catch (error) {
+      console.error(error);
+    }
+  
+    try {
+      const futureDataResponse = await axios.get(oneCall(data.coord.lat, data.coord.lon));
+      setFutureData(futureDataResponse.data);
+    } catch (error) {
+      console.error(error);
+    }
+  
+    setLocation('Tokyo');
+  };
+
+
+  const losAngelesClick = async () => {
+    let data;
+    try {
+      const response = await axios.get(losAngelesURL);
+      data = response.data;
+      setData(data);
+    } catch (error) {
+      console.error(error);
+    }
+  
+    try {
+      const futureDataResponse = await axios.get(oneCall(data.coord.lat, data.coord.lon));
+      setFutureData(futureDataResponse.data);
+    } catch (error) {
+      console.error(error);
+    }
+  
+    setLocation('Los Angeles');
+  };
+  
+  const newYorkClick = async () => {
+    let data;
+    try {
+      const response = await axios.get(newYorkURL);
+      data = response.data;
+      setData(data);
+    } catch (error) {
+      console.error(error);
+    }
+  
+    try {
+      const futureDataResponse = await axios.get(oneCall(data.coord.lat, data.coord.lon));
+      setFutureData(futureDataResponse.data);
+    } catch (error) {
+      console.error(error);
+    }
+  
+    setLocation('New York');
+  };
+
+
+
     return (
       <React.Fragment>
       <div className="app">
