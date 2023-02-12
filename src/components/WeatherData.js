@@ -119,7 +119,7 @@ function WeatherData() {
     }
     useEffect(() => {
       geoLocation();
-    }, []);
+    });
     
   
   const citiesClick = async (city) => {
