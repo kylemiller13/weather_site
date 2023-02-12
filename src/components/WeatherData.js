@@ -40,6 +40,7 @@ function WeatherData() {
   const [showMessage, setShowMessage] = useState(true);
   const [loading, setLoading] = useState(false);
   
+
   //OpenWeatherMap API takes in a template literal called location
   const url = baseURL + `${location}`+ units + apiKey;
   //OpenWeatherMap API takes in the location London, Tokyo, Los Angeles, New York
@@ -114,8 +115,10 @@ function WeatherData() {
           
           
           );
+        }else {
+          setShowMessage(false);
         }
-      }
+        }
     }
     useEffect(() => {
       geoLocation();
@@ -197,8 +200,8 @@ function WeatherData() {
                 <div className="description">
                   {data.weather ? <p>{data.weather[0].main}</p> : null}
                 </div>
+                <br></br>
                 
-
                 <div className="bottom">
                   <div className="humidity">
                     {data.main ? <p className='bold'><UilTear size="20"/>{data.main.humidity}%</p> : null}
@@ -213,8 +216,8 @@ function WeatherData() {
                     <p>Wind Speed</p>
                   </div>
                 </div>
-              
               </div>
+              <br></br>
               <Grid container direction="row" justify="space-between" alignItems="center" >
                 {futureData.daily ? (
                   // Map over the array of daily forecast objects and access the day time(dt), icon, & temperature propertys
