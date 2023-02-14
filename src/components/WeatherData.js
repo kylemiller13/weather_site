@@ -12,6 +12,7 @@ import Search from '@material-ui/icons/Search';
 
 
 
+
 const useStyles = makeStyles({
   card: {
     // styles for the card 
@@ -25,9 +26,12 @@ const useStyles = makeStyles({
 });
 
 
+
+
 function WeatherData() {
   
   const classes = useStyles();
+
 
   // used useState to declare a state variable(data, location, futureData)  
   const [data, setData] = useState({"coord":{lon:0,lat:0}});
@@ -97,13 +101,13 @@ function WeatherData() {
               
               const latitude = position.coords.latitude;
               const longitude = position.coords.longitude;
-              const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${process.env.REACT_APP_API_KEY}&units=metric`;
+              const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=imperial&appid=${process.env.REACT_APP_API_KEY}&units=metric`;
               const cards = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=hourly,minutely&units=imperial&appid=${process.env.REACT_APP_API_KEY}`;
               const [requestOne, requestTwo] = await Promise.all([axios.get(apiUrl), axios.get(cards)]);
               
               setData(requestOne.data);
               setFutureData(requestTwo.data);
-              console.log(requestOne.data);
+              console.log(requestTwo.data);
               setLoading(false);
               
               
@@ -112,12 +116,10 @@ function WeatherData() {
               setLoading(false);
             }
           }
-          
-          
-          );
-        }else {
-          setShowMessage(false);
-        }
+        );
+      }else {
+        setShowMessage(false);
+      }
         }
     }
     useEffect(() => {
@@ -156,7 +158,7 @@ function WeatherData() {
     return (
       <React.Fragment>
       <div className="app">
-
+        
         <AppBar style={{backgroundColor: 'rgba(255,255,255, 0.2)'}}>
           <Toolbar>
             <Typography variant="h6" style={{ flexGrow: 1 }}>
@@ -184,7 +186,7 @@ function WeatherData() {
                 </InputAdornment>
               ),
             }}
-            />
+          />
         </div>
         <div>
           {loading ? <LinearProgress /> : Object.keys(data).length !== 0 &&   (
