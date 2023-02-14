@@ -67,7 +67,7 @@ function WeatherData() {
         
         
         
-        // if (requestOne.data.weather[0].description === 'overcast clouds') {
+        // if (requestOne.data.weather[0].description === 'moderate rain') {
         //   console.log(requestOne.data.weather[0].description);
           
         //   document.body.style.background = "url('.././assets/giphy.gif')";
@@ -175,6 +175,7 @@ function WeatherData() {
           <TextField
             variant="outlined"
             type="search"
+            placeholder="Search"
             label="Enter Location"
             value={location}
             onKeyPress={searchLocation}
@@ -203,22 +204,23 @@ function WeatherData() {
                   {data.weather ? <p>{data.weather[0].main}</p> : null}
                 </div>
                 <br></br>
-                
-                <div className="bottom">
-                  <div className="humidity">
-                    {data.main ? <p className='bold'><UilTear size="20"/>{data.main.humidity}%</p> : null}
-                    <p>Humidity</p>
-                  </div>
-                  <div className="feels">
-                    {data.main ?  <p className='bold'><UilTemperatureThreeQuarter size="20"/> {data.main.feels_like.toFixed()}°F</p> : null}
-                    <p> Feels Like</p>
-                  </div>
-                  <div className="speed">
-                    {data.wind ? <p className='bold'><UilWind size="20"/>{data.wind.speed.toFixed()} MPH</p> : null}
-                    <p>Wind Speed</p>
-                  </div>
-                </div>
-              </div>
+                {data.main ? (
+                  <div className="bottom">
+                    <div className="humidity">
+                      <p className='bold'><UilTear size="20"/>{data.main.humidity}%</p> 
+                      <p>Humidity</p> 
+                    </div> 
+                    <div className="feels">
+                      <p className='bold'><UilTemperatureThreeQuarter size="20"/> {data.main.feels_like.toFixed()}°F</p>
+                      <p> Feels Like</p>
+                    </div>
+                    <div className="speed">
+                      <p className='bold'><UilWind size="20"/>{data.wind.speed.toFixed()} MPH</p>
+                      <p>Wind Speed</p>
+                    </div>
+                  </div>  
+                ) : null}
+              </div> 
               <br></br>
               <Grid container direction="row" justify="space-between" alignItems="center" >
                 {futureData.daily ? (
@@ -237,6 +239,7 @@ function WeatherData() {
                 ) : null}
               </Grid>
             </div>
+            
           )}
         </div>
       </div>
