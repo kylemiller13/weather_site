@@ -13,6 +13,7 @@ import Search from '@material-ui/icons/Search';
 
 
 
+
 const useStyles = makeStyles({
   card: {
     // styles for the card 
@@ -55,7 +56,7 @@ function WeatherData() {
   };
   
   
-  const searchLocation = async (event) => {
+  const searchLocation = async (event, setBackground) => {
     if (event.key === 'Enter') {
       try {
         const requestOne = await axios.get(url);
@@ -66,16 +67,15 @@ function WeatherData() {
         console.log(requestOne.data);
         
         
-        
-        // if (requestOne.data.weather[0].description === 'moderate rain') {
+        // if (requestOne.data.weather[0].description === 'few clouds') {
         //   console.log(requestOne.data.weather[0].description);
           
-        //   document.body.style.background = "url('.././assets/giphy.gif')";
+        //   setBackground('url(././assets/giphy.gif)');
         // } else if (requestOne.data.weather[0].description === 'light rain') {
         //   document.body.style.background = `url('.././assets/giphy.gif')`;
         // } else {
         //   document.body.style.background = `url('.././assets/cloudy.jpg')`;
-        // }      
+        // }   
         
         
       } catch (error) {
@@ -122,10 +122,12 @@ function WeatherData() {
       }
         }
     }
+
+
     useEffect(() => {
       geoLocation();
     });
-    
+
   
   const citiesClick = async (city) => {
     let data;
@@ -158,11 +160,12 @@ function WeatherData() {
     return (
       <React.Fragment>
       <div className="app">
+
         
         <AppBar style={{backgroundColor: 'rgba(255,255,255, 0.2)'}}>
           <Toolbar>
             <Typography variant="h6" style={{ flexGrow: 1 }}>
-              Weather API 
+              SkyCast 
             </Typography>
             {cities.map(city => (
               <Button key={city} onClick={() => citiesClick(city)}>
