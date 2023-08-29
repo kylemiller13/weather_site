@@ -91,7 +91,7 @@ function WeatherData() {
   
   const geoLocation = async () => {
     if (showMessage) {
-      const response = window.confirm('Can I get your location?');
+      const response = window.confirm('Allow "Skycast" to use your location?\n\nYour location is used to showcase for both the current forecast and the upcoming seven days.');
       if (response) {
         setShowMessage(false);
         setLoading(true);
