@@ -3,10 +3,11 @@ import axios from 'axios';
 import { UilTemperatureThreeQuarter, UilWind, UilTear} from '@iconscout/react-unicons';
 import { CardContent, Grid } from '@mui/material';
 import Card from '@material-ui/core/Card';
-import {AppBar, Toolbar, Button, Typography, TextField, LinearProgress} from '@material-ui/core';
+import {AppBar, Toolbar, Button, Typography, TextField, LinearProgress, Paper} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Search from '@material-ui/icons/Search';
+
 
 
 
@@ -22,7 +23,7 @@ const useStyles = makeStyles({
     transition: '0.3s', // animate the transition
     boxShadow: '0 0 10px rgba(0,0,0,0.3)', // add a drop shadow
     backgroundColor: 'rgba(255,255,255, 0.2)',
-    border: '1px solid #000'
+    // border: '1px solid #000'
   }
 });
 
@@ -67,7 +68,7 @@ function WeatherData() {
         console.log(requestOne.data);
         
         
-        // if (requestOne.data.weather[0].description === 'few clouds') {
+        // if (requestOne.data.weather[0].description === 'clouds') {
         //   console.log(requestOne.data.weather[0].description);
           
         //   setBackground('url(././assets/giphy.gif)');
@@ -160,87 +161,138 @@ function WeatherData() {
     return (
       <React.Fragment>
       <div className="app">
-
-        
-        <AppBar style={{backgroundColor: 'rgba(255,255,255, 0.2)'}}>
+        <AppBar style={{backgroundColor: 'rgba(255,255,255, 0.2)', height: '80px'}}>
           <Toolbar>
-            <Typography variant="h6" style={{ flexGrow: 1 }}>
+            <Typography variant="h6" style={{ flexGrow: 0.5, color: 'black' }}> 
               SkyCast 
             </Typography>
-            {cities.map(city => (
-              <Button key={city} onClick={() => citiesClick(city)}>
-                {city}
-              </Button>
-            ))}
+              <div className="search" >
+                <TextField
+                  // variant="outlined"
+                  type="search"
+                  placeholder="Search"
+                  label="Enter Location"
+                  value={location}
+                  onKeyPress={searchLocation}
+                  onChange={event => setLocation(event.target.value)}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Search />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </div>
           </Toolbar>
         </AppBar>
-        <div className="search">
-          <TextField
-            variant="outlined"
-            type="search"
-            placeholder="Search"
-            label="Enter Location"
-            value={location}
-            onKeyPress={searchLocation}
-            onChange={event => setLocation(event.target.value)}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Search />
-                </InputAdornment>
-              ),
-            }}
-          />
-        </div>
+
         <div>
           {loading ? <LinearProgress /> : Object.keys(data).length !== 0 &&   (
             
             <div className="container">
-              <div className="top">
-                <div className="location">
-                  <p>{data.name}</p>
-                </div>
-                <div className="temp">
-                  {data.main ? <h1>{data.main.temp.toFixed()}°F</h1> : null}
-                </div>
-                <div className="description">
-                  {data.weather ? <p>{data.weather[0].main}</p> : null}
-                </div>
-                <br></br>
-                {data.main ? (
-                  <div className="bottom">
-                    <div className="humidity">
-                      <p className='bold'><UilTear size="20"/>{data.main.humidity}%</p> 
-                      <p>Humidity</p> 
-                    </div> 
-                    <div className="feels">
-                      <p className='bold'><UilTemperatureThreeQuarter size="20"/> {data.main.feels_like.toFixed()}°F</p>
-                      <p> Feels Like</p>
-                    </div>
-                    <div className="speed">
-                      <p className='bold'><UilWind size="20"/>{data.wind.speed.toFixed()} MPH</p>
-                      <p>Wind Speed</p>
-                    </div>
-                  </div>  
-                ) : null}
-              </div> 
+
+              <div className='topCard'>
+                <Paper
+                  style={{
+                    width: '100%',
+                    // maxWidth: '1000px',
+                    maxWidth: '75%',     
+                    height: '100%',   
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    backgroundImage: "url('../components/assets/mountain.jpg')",
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'center center',
+                    backgroundSize: 'cover',
+                    boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.3)', // Adding a subtle shadow
+                  }}
+                >
+
+                <div className="top">
+                  {cities.map(city => (
+                    <Button key={city} onClick={() => citiesClick(city)}>
+                      {city}
+                    </Button>
+                  ))}
+                  <div className="location">
+                    <p>{data.name}</p>
+                  </div>
+                  <div className="temp">
+                    {data.main ? <h1>{data.main.temp.toFixed()}°F</h1> : null}
+                  </div>
+                  <div className="description">
+                    {data.weather ? <p>{data.weather[0].main}</p> : null}
+                  </div>
+
+                  {data.main ? (
+                    <div className="bottom">
+                      <div className="humidity">
+                        <p className='bold'><UilTear size="20"/>{data.main.humidity}%</p> 
+                        <p>Humidity</p> 
+                      </div> 
+                      <div className="feels">
+                        <p className='bold'><UilTemperatureThreeQuarter size="20"/> {data.main.feels_like.toFixed()}°F</p>
+                        <p> Feels Like</p>
+                      </div>
+                      <div className="speed">
+                        <p className='bold'><UilWind size="20"/>{data.wind.speed.toFixed()} MPH</p>
+                        <p>Wind Speed</p>
+                      </div>
+                    </div>  
+                  ) : null}
+                </div> 
+                </Paper>
+              </div>
+
               <br></br>
-              <Grid container direction="row" justify="space-between" alignItems="center" >
-                {futureData.daily ? (
-                  // Map over the array of daily forecast objects and access the day time(dt), icon, & temperature propertys
-                  futureData.daily.map(day => 
-                    <Grid item>
-                      <Card className={classes.card}>
-                        <CardContent>
-                          <p>{new Date(day.dt * 1000).toUTCString().slice(0,7)}</p>
-                          <img src={`http://openweathermap.org/img/wn/${day.weather[0].icon}.png`} alt="OpenWeatherIcons"/>
-                          <p>{(day.temp.min).toFixed()}°  {(day.temp.day).toFixed()}°</p> 
-                        </CardContent>
-                      </Card>
-                    </Grid>
-                  )
-                ) : null}
-              </Grid>
+
+
+            <div className='dailyCards'>
+              <Paper
+                style={{
+                  width: '100%',
+                  // maxWidth: '1000px',
+                  maxWidth: '85%',     
+                  height: '75%',   
+                  flexDirection: 'row',
+                  alignItems: 'center',
+
+                  backgroundImage: "url('./assets/mountain.jpg')",
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'center center',
+                  backgroundSize: 'cover',
+                  boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.3)', // Adding a subtle shadow
+                }}
+              >
+
+                <div>
+                  <Typography variant="h5" style={{ color: 'black', padding: '20px'  }}> 
+                    Daily Forecast 
+                  </Typography>
+                  <Grid container direction="row" justify="space-between" alignItems="center" display='flex' justifyContent='center'>
+                    {futureData.daily ? (
+                      // Map over the array of daily forecast objects and access the day time(dt), icon, & temperature propertys
+                      futureData.daily.map(day => 
+                        <Grid item key={day.dt}>
+                          <Card className={classes.card}>
+                            <CardContent>
+                              <p>{new Date(day.dt * 1000).toUTCString().slice(0,7)}</p>
+                              <img src={`http://openweathermap.org/img/wn/${day.weather[0].icon}.png`} alt="OpenWeatherIcons"/>
+                              <p className='higherTemp'>{(day.temp.day).toFixed()}° </p> 
+                              <p className='lowerTemp'>{(day.temp.min).toFixed()}°</p> 
+                            </CardContent>
+                          </Card>
+                        </Grid>
+                      )
+                    ) : null}
+                  </Grid>
+                </div>
+
+              </Paper>
+            </div>
+
             </div>
             
           )}
