@@ -3,7 +3,7 @@ import axios from 'axios';
 import { UilTemperatureThreeQuarter, UilWind, UilTear, UilArrowsV} from '@iconscout/react-unicons';
 import { CardContent, Grid } from '@mui/material';
 import Card from '@material-ui/core/Card';
-import {AppBar, Toolbar, Button, Typography, TextField, LinearProgress, Paper} from '@material-ui/core';
+import {AppBar, Toolbar, Typography, TextField, LinearProgress, Paper} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Search from '@material-ui/icons/Search';
@@ -40,7 +40,7 @@ function WeatherData() {
   const [data, setData] = useState({"coord":{lon:0,lat:0}});
   const [location, setLocation] = useState('');
   const [futureData, setFutureData] = useState([]);
-  const cities = ['London', 'Tokyo', 'Los Angeles', 'New York'];
+  // const cities = ['London', 'Tokyo', 'Los Angeles', 'New York'];
   const baseURL = `https://api.openweathermap.org/data/2.5/weather?q=`;
   const units = `&units=imperial`;
   const apiKey = `&appid=${process.env.REACT_APP_API_KEY}`;
