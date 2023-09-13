@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { UilTemperatureThreeQuarter, UilWind, UilTear} from '@iconscout/react-unicons';
+import { UilTemperatureThreeQuarter, UilWind, UilTear, UilArrowsV} from '@iconscout/react-unicons';
 import { CardContent, Grid } from '@mui/material';
 import Card from '@material-ui/core/Card';
 import {AppBar, Toolbar, Button, Typography, TextField, LinearProgress, Paper} from '@material-ui/core';
@@ -15,13 +15,14 @@ import Search from '@material-ui/icons/Search';
 
 
 
+
 const useStyles = makeStyles({
   card: {
     // styles for the card 
     elevation: 24, // add a drop shadow
     opacity: 0.8, // make the card transparent
     transition: '0.3s', // animate the transition
-    boxShadow: '0 0 10px rgba(0,0,0,0.3)', // add a drop shadow
+    // boxShadow: '0 0 10px rgba(0,0,0,0.3)', // add a drop shadow
     backgroundColor: 'rgba(255,255,255, 0.2)',
     // border: '1px solid #000'
   }
@@ -45,6 +46,8 @@ function WeatherData() {
   const apiKey = `&appid=${process.env.REACT_APP_API_KEY}`;
   const [showMessage, setShowMessage] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [background, setBackground] = useState('default-background');
+  
   
 
   //OpenWeatherMap API takes in a template literal called location
@@ -57,26 +60,32 @@ function WeatherData() {
   };
   
   
-  const searchLocation = async (event, setBackground) => {
+  const searchLocation = async (event) => {
     if (event.key === 'Enter') {
       try {
         const requestOne = await axios.get(url);
         const requestTwo = await axios.get(oneCall(requestOne.data.coord.lat, requestOne.data.coord.lon));
-        
+      
         setData(requestOne.data);
         setFutureData(requestTwo.data);
+
         console.log(requestOne.data);
+        console.log(requestOne.data.weather[0].description);
         
-        
-        // if (requestOne.data.weather[0].description === 'clouds') {
-        //   console.log(requestOne.data.weather[0].description);
-          
-        //   setBackground('url(././assets/giphy.gif)');
-        // } else if (requestOne.data.weather[0].description === 'light rain') {
-        //   document.body.style.background = `url('.././assets/giphy.gif')`;
-        // } else {
-        //   document.body.style.background = `url('.././assets/cloudy.jpg')`;
-        // }   
+        if (requestOne.data.weather[0].main === 'Clouds') {
+          // console.log(requestOne.data.weather[0].description);
+          setBackground('cloudy-background'); 
+        } else if (requestOne.data.weather[0].main === 'Rain') {
+          setBackground('rainy-background'); 
+        } else if (requestOne.data.weather[0].main === 'Thunderstorm') {
+          setBackground('thunder-background');
+        } else if (requestOne.data.weather[0].main === 'Clear') {
+          setBackground('clear-background');
+        } else {
+          setBackground('default-background');
+        }
+
+
         
         
       } catch (error) {
@@ -108,9 +117,24 @@ function WeatherData() {
               
               setData(requestOne.data);
               setFutureData(requestTwo.data);
-              console.log(requestTwo.data);
+              // console.log(requestTwo.data);
               setLoading(false);
               
+
+              if (requestOne.data.weather[0].main === 'Clouds') {
+                // console.log(requestOne.data.weather[0].description);
+                setBackground('cloudy-background'); 
+              } else if (requestOne.data.weather[0].main === 'Rain') {
+                setBackground('rainy-background'); 
+              } else if (requestOne.data.weather[0].main === 'Thunderstorm') {
+                setBackground('thunder-background');
+              } else if (requestOne.data.weather[0].main === 'Clear') {
+                setBackground('clear-background');
+              } else {
+                setBackground('default-background');
+              }
+      
+
               
             } catch (error) {
               console.error(error);
@@ -130,33 +154,40 @@ function WeatherData() {
     });
 
   
-  const citiesClick = async (city) => {
-    let data;
+  // const citiesClick = async (city) => {
+  //   let data;
     
-    try {
-      //makes an API call to the OpenWeatherMap API
-      const response = await axios.get(baseURL + `${city}`+ units + apiKey);
-      data = response.data;
-      //if the call is successful, it sets the response data in the state data
-      setData(data);
-      //If the call to the OpenWeatherMap API fails, the function logs the error to the console
-    } catch (error) {
-      console.error(error);
-    }
+  //   try {
+  //     //makes an API call to the OpenWeatherMap API
+  //     const response = await axios.get(baseURL + `${city}`+ units + apiKey);
+  //     data = response.data;
+  //     //if the call is successful, it sets the response data in the state data
+  //     setData(data);
+  //     //If the call to the OpenWeatherMap API fails, the function logs the error to the console
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
 
     
-    try {
-      //makes another API call to the OpenWeatherMap API
-      const futureDataResponse = await axios.get(oneCall(data.coord.lat, data.coord.lon));
-      //if the call is successful, it sets the response data in the state data
-      setFutureData(futureDataResponse.data);
-      //If the call to the OpenWeatherMap API fails, the function logs the error to the console
-    } catch (error) {
-      console.error(error);
-    }
+  //   try {
+  //     //makes another API call to the OpenWeatherMap API
+  //     const futureDataResponse = await axios.get(oneCall(data.coord.lat, data.coord.lon));
+  //     //if the call is successful, it sets the response data in the state data
+  //     setFutureData(futureDataResponse.data);
+  //     //If the call to the OpenWeatherMap API fails, the function logs the error to the console
+
+     
+
+      
+
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+
+   
     
-    setLocation(`${city}`);
-  };
+  //   setLocation(`${city}`);
+  // };
   
     return (
       <React.Fragment>
@@ -191,75 +222,124 @@ function WeatherData() {
           {loading ? <LinearProgress /> : Object.keys(data).length !== 0 &&   (
             
             <div className="container">
-
-              <div className='topCard'>
+              <div style={{
+                display: 'flex', // Use flexbox to arrange the papers side by side
+                justifyContent: 'space-evenly',
+                gap: '10px'
+              }}>
+              
                 <Paper
                   style={{
+                    
                     width: '100%',
-                    // maxWidth: '1000px',
-                    maxWidth: '75%',     
                     height: '100%',   
                     display: 'flex',
                     flexDirection: 'row',
-                    alignItems: 'center',
-                    backgroundImage: "url('../components/assets/mountain.jpg')",
+                    // backgroundImage: `url(${giphyGif})`,
                     backgroundRepeat: 'no-repeat',
                     backgroundPosition: 'center center',
                     backgroundSize: 'cover',
                     boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.3)', // Adding a subtle shadow
+                    flex: 1
                   }}
+                  className={background}
                 >
 
-                <div className="top">
-                  {cities.map(city => (
+                
+                  {/* {cities.map(city => (
                     <Button key={city} onClick={() => citiesClick(city)}>
                       {city}
                     </Button>
-                  ))}
-                  <div className="location">
-                    <p>{data.name}</p>
+                  ))} */}
+                  <div className="weatherInfo">
+                    <div className="location">
+                      <p className='bold'>{data.name}</p>
+                    </div>
+                    <div className="temp">
+                      {data.main ? <h1>{data.main.temp.toFixed()}°F</h1> : null}
+                    </div>
+                    <div className="description">
+                      {data.weather ? (
+                        <p className='bold'>
+                          {data.weather[0].description
+                            .split(' ') // Split the string into words
+                            .map(word => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize each word
+                            .join(' ') // Join the words back together with spaces
+                          }
+                        </p>
+                      ) : null}
+                    </div>
+                    <div className="high&low">
+                    {data.main ?
+                      <p className='bold'>Day {data.main.temp_max.toFixed()}° • Night {data.main.temp_min.toFixed()}°</p>
+                    : null}
+                    </div>
                   </div>
-                  <div className="temp">
-                    {data.main ? <h1>{data.main.temp.toFixed()}°F</h1> : null}
-                  </div>
-                  <div className="description">
-                    {data.weather ? <p>{data.weather[0].main}</p> : null}
-                  </div>
-
-                  {data.main ? (
-                    <div className="bottom">
-                      <div className="humidity">
-                        <p className='bold'><UilTear size="20"/>{data.main.humidity}%</p> 
-                        <p>Humidity</p> 
-                      </div> 
-                      <div className="feels">
-                        <p className='bold'><UilTemperatureThreeQuarter size="20"/> {data.main.feels_like.toFixed()}°F</p>
-                        <p> Feels Like</p>
-                      </div>
-                      <div className="speed">
-                        <p className='bold'><UilWind size="20"/>{data.wind.speed.toFixed()} MPH</p>
-                        <p>Wind Speed</p>
-                      </div>
-                    </div>  
-                  ) : null}
-                </div> 
+                
                 </Paper>
-              </div>
+              <Paper
+                style={{
+                  
+                  flexDirection: 'row',
+                  flex: 1,
+                }}
+              >
+                {/* <p className='bold'>Weather Today in {data.name} </p>
+                
+                <p>Feels Like <br /></p>
+                {data.main ? 
+                  <p className='bold'> {data.main.feels_like.toFixed()}° </p>
+                : null} */}
+                
+                  <div className='weatherInfo'>
+                    <p className='bold'>Weather Today in {data.name}</p>
+                  </div>
 
-              <br></br>
+                  <div className='todayDetailsCard'>
+                    <p>Feels Like</p>
+                    {data.main ? 
+                      <h5>{data.main.feels_like.toFixed()}°</h5>
+                    : null}
+                  </div>
 
 
+                <div className='todayDetailsCard-detailsContainer'>
+                  {data.main ? (
+                    <ul style={{ listStyleType: 'none', padding: '10px', fontSize: '1.6rem', marginLeft: '25px', display: 'grid', gridTemplateColumns: '1fr 1fr',  }}>
+                      <li style={{ borderBottom: '1px solid lightgray',   padding: '10px 13px' }}>
+                        <span><UilTemperatureThreeQuarter size="20"/> High / Low</span>
+                        <span style={{float:'right'}}>{data.main.temp_max.toFixed()}°/{data.main.temp_min.toFixed()}°</span>
+                      </li>
+                      <li style={{ borderBottom: '1px solid lightgray',   padding: '10px 13px' }}>
+                        <span><UilTear size="20"/> Humidity</span>
+                        <span style={{float:'right'}}>{data.main.humidity}%</span>
+                      </li>
+                      <li style={{ borderBottom: '1px solid lightgray',   padding: '10px 13px' }}>
+                        <span><UilWind size="20"/> Wind Speed</span>
+                        <span style={{float:'right'}}>{data.wind.speed.toFixed()} MPH</span>
+                      </li>
+                      <li style={{ borderBottom: '1px solid lightgray',   padding: '10px 13px' }}>
+                        <span><UilArrowsV size="20"/> Pressure</span>
+                        <span style={{float:'right'}}>{(data.main.pressure * 0.029529983071445).toFixed(2)} in</span>
+                      </li>
+                    </ul>
+                  ) : null}
+                </div>
+
+              </Paper>
+
+            </div>
             <div className='dailyCards'>
               <Paper
                 style={{
                   width: '100%',
                   // maxWidth: '1000px',
                   maxWidth: '85%',     
-                  height: '75%',   
+                  height: '70%',   
                   flexDirection: 'row',
                   alignItems: 'center',
 
-                  backgroundImage: "url('./assets/mountain.jpg')",
+                  backgroundImage: "url('../assets/cloudy.jpg')",
                   backgroundRepeat: 'no-repeat',
                   backgroundPosition: 'center center',
                   backgroundSize: 'cover',
